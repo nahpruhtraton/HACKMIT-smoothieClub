@@ -2,9 +2,10 @@
  
 from tkinter import *
 import os
-from PIL import ImageTk, Image
  
 # Designing window for registration
+
+PATH_TO_USERS = 'webserver/login_window/users/'
  
 def register():
     global register_screen
@@ -71,7 +72,7 @@ def register_user():
     username_info = username.get()
     password_info = password.get()
  
-    file = open('users/' + username_info, "w")
+    file = open(PATH_TO_USERS + username_info, "w")
     file.write(username_info + "\n")
     file.write(password_info)
     file.close()
@@ -89,9 +90,9 @@ def login_verify():
     username_login_entry.delete(0, END)
     password_login_entry.delete(0, END)
  
-    list_of_files = os.listdir('users')
+    list_of_files = os.listdir(PATH_TO_USERS)
     if username1 in list_of_files:
-        file1 = open('users/' + username1, "r")
+        file1 = open(PATH_TO_USERS + username1, "r")
         verify = file1.read().splitlines()
         if password1 in verify:
             login_success_usernames.append(username1)
@@ -113,7 +114,7 @@ def login_sucess():
     login_success_screen.title("Success")
     login_success_screen.geometry("150x100")
     Label(login_success_screen, text="Login Success").pack()
-    Button(login_success_screen, text="Proceed to Map", command=load_map).pack()
+    Button(login_success_screen, text="OK", command=delete_login_success).pack()
  
 # Designing popup for login invalid password
  
@@ -134,31 +135,12 @@ def user_not_found():
     user_not_found_screen.geometry("150x100")
     Label(user_not_found_screen, text="User Not Found").pack()
     Button(user_not_found_screen, text="OK", command=delete_user_not_found_screen).pack()
-
-# Load map
-
-def load_map():
-    global map_screen
-    map_screen = Tk()
-    map_screen.title("parkMIT")
-    map_screen.geometry("3000x2500")
-    map_screen.configure(background='grey')
-    path = "MIT_map.PNG"
-
-    #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
-    img = ImageTk.PhotoImage(Image.open(path))
-
-    #The Label widget is a standard Tkinter widget used to display a text or image on the screen.
-    panel = Label(map_screen, image=img)
-
-    #The Pack geometry manager packs widgets in rows or columns.
-    panel.pack(side = "bottom", fill = "both", expand = "yes")
  
 # Deleting popups
  
 def delete_login_success():
     login_success_screen.destroy()
-
+    main_screen.destroy()
 
 def delete_login_screen():
     login_screen.destroy()
@@ -182,7 +164,7 @@ def delete_gui():
 def main_account_screen():
     global main_screen
     main_screen = Tk()
-    main_screen.geometry("3000x2500")
+    main_screen.geometry("300x250")
     main_screen.title("Account Login")
 
 
@@ -210,4 +192,4 @@ def login_api():
     return result
 
 login_success_usernames = []
-login_api()
+# login_api()

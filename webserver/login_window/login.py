@@ -3,8 +3,12 @@
 from tkinter import *
 import os
 from PIL import ImageTk, Image
+from CoordRead import CoordRead
+import random
  
 # Designing window for registration
+
+INT_TO_COLOR = {0: 'green', 1: 'yellow', 2: 'orange', 3: 'red', 4: 'purple', 5: 'purple'}
  
 def register():
     global register_screen
@@ -146,12 +150,25 @@ def load_map():
     path = "MIT_map.png"
 
     Button(map_screen, text="Find nearby parking.", command=None).pack()
+    Button(map_screen, text="Logout", command=delete_gui).pack()
     #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
     img = ImageTk.PhotoImage(Image.open(path))
     canvas = Canvas(map_screen, width=3000, height=2500)
     canvas.create_image(-100, -110, anchor=NW, image=img)
     canvas.pack(expand=YES, fill=BOTH)
-    canvas.create_oval(10, 10, 20, 20, fill="black")
+
+    for elt in parking_instances:
+        y = elt[0] # lat
+        x = elt[1] # lon
+        print(tuple([y]+[x]))
+
+        x_pixel = (57873.25138) * (x + 71.1058) + 130
+        y_pixel = 770-(80769.40552 * (y - 42.3534))
+        print(x_pixel)
+        print(y_pixel)
+        color = round(random.random() * 5)
+
+        canvas.create_oval(x_pixel, y_pixel, x_pixel+10, y_pixel+10, fill=INT_TO_COLOR[color])
 
     #The Label widget is a standard Tkinter widget used to display a text or image on the screen.
     panel = Label(map_screen, image=img)
@@ -240,5 +257,6 @@ def login_api():
     print(result)
     return result
 
+parking_instances = CoordRead('coordinates.txt')
 login_success_usernames = []
 login_api()

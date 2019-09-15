@@ -2,14 +2,21 @@ import random
 import time
 import math
 
-def CoordRead():
+def CoordRead(filename):
     ## Read file and give coordinates as list of tuples.
-    filename = input("Give filename: ")
+    # filename = input("Give filename: ")
     
     coordinates = open(filename)
     content = coordinates.read()
     cords = content.splitlines()
-    n_cords = [eval(elt) for elt in cords]
+    n_cords = []
+    for elt in cords:
+        try:
+            if elt[0] != '#':
+                n_cords.append(eval(elt))
+        except:
+            pass
+    # n_cords = [eval(elt) if elt[0] != '#' for elt in cords]
     
     ## Use current time to determine threshold value for avaliable parking.
     locTime = time.localtime()
@@ -41,8 +48,8 @@ def CoordRead():
     Nonavailability = NonHours2[FullMin]
     for i in n_cords:
         rng = random.random()
-        if rng > Nonavailability:
-            AvaCordList = AvaCordList + [i]
+        # if rng > Nonavailability:
+        AvaCordList = AvaCordList + [i]
 
     coordinates.close()
     return AvaCordList

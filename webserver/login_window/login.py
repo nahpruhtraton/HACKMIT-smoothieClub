@@ -142,11 +142,16 @@ def load_map():
     map_screen = Toplevel(login_screen)
     map_screen.title("parkMIT")
     map_screen.geometry("3000x2500")
-    map_screen.configure(background='grey')
+    map_screen.configure(background='white')
     path = "MIT_map.png"
 
+    Button(map_screen, text="Find nearby parking.", command=None).pack()
     #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
     img = ImageTk.PhotoImage(Image.open(path))
+    canvas = Canvas(map_screen, width=3000, height=2500)
+    canvas.create_image(-100, -110, anchor=NW, image=img)
+    canvas.pack(expand=YES, fill=BOTH)
+    canvas.create_oval(10, 10, 20, 20, fill="black")
 
     #The Label widget is a standard Tkinter widget used to display a text or image on the screen.
     panel = Label(map_screen, image=img)
@@ -160,6 +165,26 @@ def load_map():
     # canvas.create_image(300, 300, anchor=NW, image=img)
     mainloop()
 
+    # global map_screen
+    # map_screen = Toplevel(login_screen)
+    # canvas = Canvas(map_screen, width=3000, height=2500)
+    # background_image=PhotoImage(file='MIT_map.png')
+    # canvas.pack()
+    # image = canvas.create_image(3000, 2500, image=background_image)
+    # line = canvas.create_line(10, 10, 100, 35, fill="red")
+    # # map_screen.wm_geometry("794x370")
+    # map_screen.title('Map')
+    # map_screen.mainloop()
+
+# root = Tk.Tk()
+# canvas = Tk.Canvas(root)
+# background_image=Tk.PhotoImage(file="map.png")
+# canvas.pack(fill=Tk.BOTH, expand=1) # Stretch canvas to root window size.
+# image = canvas.create_image(0, 0, anchor=Tk.NW, image=background_image)
+# line = canvas.create_line(10, 10, 100, 35, fill="red")
+# root.wm_geometry("794x370")
+# root.title('Map')
+# root.mainloop()
 # Deleting popups
  
 def delete_login_success():

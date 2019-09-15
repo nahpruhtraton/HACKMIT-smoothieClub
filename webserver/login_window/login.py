@@ -139,11 +139,11 @@ def user_not_found():
 
 def load_map():
     global map_screen
-    map_screen = Tk()
+    map_screen = Toplevel(login_screen)
     map_screen.title("parkMIT")
     map_screen.geometry("3000x2500")
     map_screen.configure(background='grey')
-    path = "MIT_map.PNG"
+    path = "MIT_map.png"
 
     #Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
     img = ImageTk.PhotoImage(Image.open(path))
@@ -152,8 +152,14 @@ def load_map():
     panel = Label(map_screen, image=img)
 
     #The Pack geometry manager packs widgets in rows or columns.
-    panel.pack(side = "bottom", fill = "both", expand = "yes")
- 
+    panel.pack()
+    
+    # canvas = Canvas(map_screen, width=3000, height=2500)
+    # canvas.pack()
+    # img = PhotoImage(file='MIT_map.png')
+    # canvas.create_image(300, 300, anchor=NW, image=img)
+    mainloop()
+
 # Deleting popups
  
 def delete_login_success():
